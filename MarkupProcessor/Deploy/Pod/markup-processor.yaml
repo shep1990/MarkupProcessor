@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: markup-processor
+spec:
+   containers:
+   - name: markup-processor
+     image: shep1990/markup_flow_chart_processor:latest
+     ports:
+     - containerPort: 6379
