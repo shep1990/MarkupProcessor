@@ -1,12 +1,9 @@
 resources:
   repositories:
-      - repository: shep1990/MarkupProcessor
+      - repository: MarkupProcessor
         type: git
-        name: shep1990/MarkupProcessor
-        trigger:
-         branches:
-             include:
-                 - master
+        name: MarkupProcessor
+        ref: refs/heads/master
 
 pool:
   vmImage: ubuntu-latest
