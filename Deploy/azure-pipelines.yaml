@@ -3,7 +3,10 @@ resources:
       - repository: MarkupProcessor
         type: git
         name: MarkupProcessor
-        ref: master
+        trigger:
+          branches:
+            include:
+              - master
 
 pool:
   vmImage: ubuntu-latest
