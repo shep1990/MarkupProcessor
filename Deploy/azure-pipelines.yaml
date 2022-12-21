@@ -2,7 +2,7 @@ resources:
   repositories:
       - repository: shep1990/MarkupProcessor
         type: git
-        name: MarkupProcessor
+        name: shep1990/MarkupProcessor
         trigger:
          branches:
              include:
