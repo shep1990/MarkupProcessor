@@ -3,7 +3,7 @@ resources:
       - repository: MarkupProcessor
         type: git
         name: MarkupProcessor
-        ref: refs/heads/master
+        ref: master
 
 pool:
   vmImage: ubuntu-latest
