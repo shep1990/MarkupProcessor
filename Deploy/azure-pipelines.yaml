@@ -1,0 +1,67 @@
+resources:
+  repositories:
+      - repository: MarkupProcessor
+        type: git
+        name: MarkupProcessor
+        trigger:
+          branches:
+            include:
+              - master
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+    - stage: BuildTestPublishArtifact
+      displayName: Build - Test - Publish
+      jobs:
+      - job: Build
+        steps:
+        - task: UseDotNet@2
+          inputs:
+            packageType: 'sdk'
+            version: '6.0.x'
+
+        - task: DotNetCoreCLI@2
+          displayName: Restore
+          inputs:
+            command: 'restore'
+            projects: '**/**/*.csproj'
+            feedsToUse: 'select'
+            vstsFeed: '804b14a9-0071-4078-9bae-9c71553dcc86'
+            arguments: 
+        
+        - task: DotNetCoreCLI@2
+          displayName: Build
+          inputs:
+            command: 'build'
+            projects: '**/**/*.csproj'
+            arguments: '--configuration $(BuildConfiguration)'
+        
+        - task: DotNetCoreCLI@2
+          displayName: Test
+          inputs:
+            command: test
+            projects: '**/**/*(Tt)ests/*.csproj'
+            arguments: '--configuration $(BuildConfiguration)'
+        
+        - task: DotNetCoreCLI@2
+          displayName: Publish
+          inputs:
+              command: publish
+              projects: '**/**/*MarkupProcessor.csproj'
+              arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+        
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish artifacts'
+          inputs:
+            PathtoPublish: $(build.artifactstagingdirectory)
+            ArtifactName: PublishBuildArtifacts
+
+        - task: TerraformInstaller@0
+          displayName: 'install terraform'
+          inputs:
+            terraformVersion: 'latest'
+
+
+        
