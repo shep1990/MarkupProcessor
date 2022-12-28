@@ -66,8 +66,6 @@ stages:
     - stage: Deploy
       displayName: Deploy
       condition: or(and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')), eq(variables['ForceDeploy'], true))
-      variables:
-        - group: 'dev.terraform'
       jobs:
       - job: DeployFunction
         steps:
