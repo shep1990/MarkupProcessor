@@ -1,5 +1,5 @@
 variable "resource_group_location" {
-  default     = "westeu"
+  default     = "westeurope"
 }
 
 variable "resource_group_name" {
