@@ -7,5 +7,5 @@ variable "resource_group_name" {
 }
 
 variable "cosmos_db_name" {
-  default     = "cosmosdb"
+  default     = "markup-processor-cosmosdb-01"
 }
