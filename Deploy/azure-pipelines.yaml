@@ -82,7 +82,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/Deploy/terraform'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/Deploy/Terraform'
             backendServiceArm: 'Azure subscription 1(2b4c180f-f586-49ae-b769-67e1f059dcf6)'
             backendAzureRmResourceGroupName: 'TerraformStateEUW'
             backendAzureRmStorageAccountName: 'markupterraformstate'
