@@ -5,3 +5,7 @@ variable "resource_group_location" {
 variable "resource_group_name" {
   default     = "MarkupProcessor-RG"
 }
+
+variable "cosmos_db_name" {
+  default     = "cosmosdb"
+}
