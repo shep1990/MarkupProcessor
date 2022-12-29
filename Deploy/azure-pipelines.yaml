@@ -88,48 +88,48 @@ stages:
             backendAzureRmStorageAccountName: 'markupterraformstate'
             backendAzureRmContainerName: 'tfstate'
             backendAzureRmKey: 'tf/$(Build.Repository.Name).tfstate'
-        # - task: TerraformTaskV2@2
-        #   displayName: 'validate'
-        #   inputs:
-        #     provider: 'azurerm'
-        #     command: 'validate'
-        # - task: TerraformTaskV2@2
-        #   displayName: 'plan'
-        #   inputs:
-        #     provider: 'azurerm'
-        #     command: 'plan'
-        #     workingDirectory: '$(System.DefaultWorkingDirectory)/Deploy/terraform'
-        #     environmentServiceNameAzureRM: 'sc-dev-itemsortationservice-whs'
-        # - task: TerraformTaskV2@2
-        #   displayName: 'apply'
-        #   inputs:
-        #     provider: 'azurerm'
-        #     command: 'apply'
-        #     workingDirectory: '$(System.DefaultWorkingDirectory)/Deploy/terraform'
-        #     environmentServiceNameAzureRM: 'sc-dev-itemsortationservice-whs'
-        # - task: AzureFunctionApp@1
-        #   displayName: Deploy function to Dev
-        #   inputs:
-        #     azureSubscription: 'sc-dev-itemsortationservice-whs'
-        #     appType: 'functionApp'
-        #     appName: 'ItemSortationService-FUNC-WHS-DEV-EUW'
-        #     package: '$(System.ArtifactsDirectory)/**/*.zip'
-        #     deploymentMethod: 'zipDeploy'
-        # - task: AzureAppConfigurationPush@1
-        #   inputs:
-        #     azureSubscription: 'sc-dev-itemsortationservice-whs'
-        #     ConfigstoreName: 'ItemSortationService-APPC-WHS-DEV-EUW'
-        #     ConfigurationFile: '$(Build.SourcesDirectory)/Configuration/keyvault-dev.json'
-        #     Separator: '.'
-        #     ContentType: 'application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8'
-        #     Strict: false
-        # - task: AzureAppConfigurationPush@1
-        #   inputs:
-        #     azureSubscription: 'sc-dev-itemsortationservice-whs'
-        #     ConfigstoreName: 'ItemSortationService-APPC-WHS-DEV-EUW'
-        #     ConfigurationFile: '$(Build.SourcesDirectory)/Configuration/dev.json'
-        #     Separator: '.'
-        #     Strict: false
+         - task: TerraformTaskV2@2
+           displayName: 'validate'
+           inputs:
+             provider: 'azurerm'
+             command: 'validate'
+         - task: TerraformTaskV2@2
+           displayName: 'plan'
+           inputs:
+             provider: 'azurerm'
+             command: 'plan'
+             workingDirectory: '$(System.DefaultWorkingDirectory)/Deploy/Terraform'
+             environmentServiceNameAzureRM: 'sc-dev-itemsortationservice-whs'
+         - task: TerraformTaskV2@2
+           displayName: 'apply'
+           inputs:
+             provider: 'azurerm'
+             command: 'apply'
+             workingDirectory: '$(System.DefaultWorkingDirectory)/Deploy/Terraform'
+             environmentServiceNameAzureRM: 'sc-dev-itemsortationservice-whs'
+         - task: AzureFunctionApp@1
+           displayName: Deploy function to Dev
+           inputs:
+             azureSubscription: 'sc-dev-itemsortationservice-whs'
+             appType: 'functionApp'
+             appName: 'ItemSortationService-FUNC-WHS-DEV-EUW'
+             package: '$(System.ArtifactsDirectory)/**/*.zip'
+             deploymentMethod: 'zipDeploy'
+         - task: AzureAppConfigurationPush@1
+           inputs:
+             azureSubscription: 'sc-dev-itemsortationservice-whs'
+             ConfigstoreName: 'ItemSortationService-APPC-WHS-DEV-EUW'
+             ConfigurationFile: '$(Build.SourcesDirectory)/Configuration/keyvault-dev.json'
+             Separator: '.'
+             ContentType: 'application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8'
+             Strict: false
+         - task: AzureAppConfigurationPush@1
+           inputs:
+             azureSubscription: 'sc-dev-itemsortationservice-whs'
+             ConfigstoreName: 'ItemSortationService-APPC-WHS-DEV-EUW'
+             ConfigurationFile: '$(Build.SourcesDirectory)/Configuration/dev.json'
+             Separator: '.'
+             Strict: false
 
 
         
