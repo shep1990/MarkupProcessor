@@ -16,7 +16,7 @@ resource "azurerm_cosmosdb_account" "markup-processor-account" {
 
 
 resource "azurerm_cosmosdb_sql_database" "markup-processor-database" {
-  name                = "MarkupProcessorData"
+  name                = "markup-processor-data"
   resource_group_name = azurerm_resource_group.markup-processor-rg.name
-  account_name        = var.cosmos_db_name
+  account_name        = azurerm_cosmosdb_account.markup-processor-account.name
 }
