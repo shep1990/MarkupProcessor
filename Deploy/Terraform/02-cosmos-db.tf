@@ -9,7 +9,7 @@ resource "azurerm_cosmosdb_account" "markup-processor-account" {
     max_staleness_prefix    = 100000
   }
     geo_location {
-    location          = "westeu"
+    location          = "westeurope"
     failover_priority = 0
   }
 }
