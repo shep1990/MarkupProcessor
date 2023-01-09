@@ -36,7 +36,7 @@ stages:
           inputs:
             command: 'build'
             projects: '**/**/*.csproj'
-            arguments: '--configuration $(BuildConfiguration)'
+            arguments: '--configuration $(BuildConfiguration) --no-restore'
         
         - task: DotNetCoreCLI@2
           displayName: Test
@@ -67,7 +67,7 @@ stages:
       displayName: Deploy
       # condition: or(and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')), eq(variables['ForceDeploy'], true))
       jobs:
-      - job: DeployFunction
+      - job: DeployWebApp
         steps:
         - task: DownloadBuildArtifacts@0
           displayName: Download Artifact
