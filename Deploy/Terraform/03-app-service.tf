@@ -16,10 +16,3 @@ resource "azurerm_linux_web_app" "markup_app" {
 	always_on = false
   }
 }
-
-resource "azurerm_app_service_source_control" "source_control" {
-  app_id   = azurerm_linux_web_app.markup_app.id
-  repo_url = "https://github.com/shep1990/MarkupProcessor"
-  branch   = "master"
-  use_manual_integration = true
-}
