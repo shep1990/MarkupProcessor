@@ -29,7 +29,7 @@ stages:
             projects: '**/**/*.csproj'
             feedsToUse: 'select'
             vstsFeed: '804b14a9-0071-4078-9bae-9c71553dcc86'
-            arguments: 
+            arguments: '--configuration $(BuildConfiguration)'
         
         - task: DotNetCoreCLI@2
           displayName: Build
