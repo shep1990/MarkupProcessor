@@ -113,6 +113,6 @@ stages:
             azureSubscription: 'Azure subscription 1(2b4c180f-f586-49ae-b769-67e1f059dcf6)'
             appType: 'webAppLinux'
             WebAppName: 'markup-processor-app'
-            packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+            packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
 
         
