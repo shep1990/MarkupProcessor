@@ -8,8 +8,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHealthChecks();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1",
-        new OpenApiInfo { Title = $"MarkupProcessor API", Version = "v1" });
     options.DocInclusionPredicate((docName, description) => true);
     options.CustomSchemaIds(x => x.FullName);
 });
