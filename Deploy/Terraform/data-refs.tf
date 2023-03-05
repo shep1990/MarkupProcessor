@@ -4,5 +4,5 @@ data "azurerm_resource_group" "markup-processor-rg" {
 
 data "azurerm_cosmosdb_account" "markup-processor-cosmosdb-account" {
   name                = "${var.cosmos_db_name}"
-  resource_group_name = data.azurerm_resource_group.picking-services-rg.name
+  resource_group_name = data.azurerm_resource_group.markup-processor-rg.name
 }
