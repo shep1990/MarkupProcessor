@@ -2,9 +2,6 @@
 using MarkupProcessor.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
 
 namespace MarkupProcessor.Controllers
 {
