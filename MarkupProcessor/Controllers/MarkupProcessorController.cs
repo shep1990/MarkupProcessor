@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MarkupProcessor.Data;
+using MarkupProcessor.Data.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;
@@ -11,14 +13,16 @@ namespace MarkupProcessor.Controllers
     public class MarkupProcessorController : ControllerBase
     {
         private readonly ILogger<MarkupProcessorController> _logger;
+        private readonly IMarkupRepository _markupRepository;
 
-        public MarkupProcessorController(ILogger<MarkupProcessorController> logger)
+        public MarkupProcessorController(ILogger<MarkupProcessorController> logger, IMarkupRepository markupRepository)
         {
             _logger = logger;
+            _markupRepository = markupRepository;
         }
 
-        [HttpGet]
-        public async Task<MDContents> Get(IFormFile file)
+        [HttpPost]
+        public async Task<MDContents> Post(IFormFile file)
         {
             var contents = new MDContents();
             using (var reader = new StreamReader(file.OpenReadStream()))
@@ -29,20 +33,15 @@ namespace MarkupProcessor.Controllers
                     {
                         var jsonString = reader.ReadToEnd().Trim();
                         contents = JsonConvert.DeserializeObject<MDContents>(jsonString.Remove(jsonString.Length-3));
+                        contents.FlowChartId = Guid.NewGuid().ToString();
                     }
                 }
             }
 
+            await _markupRepository.Add(contents);
+
+           
             return contents;
         }
-    }
-
-    public class MDContents
-    {
-        public string Guid { get; set; }
-        public string CreationDate { get; set; }
-        public string Version { get; set; }
-        public string SourceSystem { get; set; }
-        public dynamic Payload { get; set; }
     }
 }

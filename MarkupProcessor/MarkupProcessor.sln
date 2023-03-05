@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkupProcessor", "MarkupProcessor.csproj", "{DE82CD7E-B4B8-443B-9682-F3A71E7FD1B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkupProcessor", "MarkupProcessor.csproj", "{DE82CD7E-B4B8-443B-9682-F3A71E7FD1B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkupProcessor.Tests", "..\MarkupProcessor.Tests\MarkupProcessor.Tests.csproj", "{C812F2D4-CA16-4E99-8B70-168141B841F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkupProcessor.Tests", "..\MarkupProcessor.Tests\MarkupProcessor.Tests.csproj", "{C812F2D4-CA16-4E99-8B70-168141B841F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkupProcessor.Data", "..\MarkupProcessor.Data\MarkupProcessor.Data.csproj", "{9C630803-4F67-4E4A-9992-4A394AAB88CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C812F2D4-CA16-4E99-8B70-168141B841F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C812F2D4-CA16-4E99-8B70-168141B841F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C812F2D4-CA16-4E99-8B70-168141B841F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C630803-4F67-4E4A-9992-4A394AAB88CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C630803-4F67-4E4A-9992-4A394AAB88CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C630803-4F67-4E4A-9992-4A394AAB88CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C630803-4F67-4E4A-9992-4A394AAB88CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -29,4 +29,10 @@
     <ProjectReference Include="..\MarkupProcessor\MarkupProcessor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Test Md files\TestMd.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

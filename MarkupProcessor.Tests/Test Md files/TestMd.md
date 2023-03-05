@@ -12,7 +12,9 @@ Service bus subscription - whds-itemsortation-demandcancelled-subscription
     "payload": 
 	{
 		"demandId": 9604648153,
-		"Status": "Cancelled"
+		"Sku": "123",
+		"Status": "Cancelled",
+		"InvoiceNo": "456"
 	}
 }
 ```

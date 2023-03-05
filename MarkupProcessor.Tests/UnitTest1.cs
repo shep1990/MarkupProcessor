@@ -1,5 +1,7 @@
 using FluentAssertions;
 using MarkupProcessor.Controllers;
+using MarkupProcessor.Data;
+using MarkupProcessor.Data.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
@@ -13,30 +15,34 @@ namespace MarkupProcessor.Tests
     public class UnitTest1
     {
         private Mock<ILogger<MarkupProcessorController>> _markUpProcessor;
+        private Mock<IMarkupRepository> _repository;
 
         [TestInitialize]
         public void Setup()
         {
             _markUpProcessor = new Mock<ILogger<MarkupProcessorController>>();
+            _repository = new Mock<IMarkupRepository>();
         }
 
         [TestMethod]
         public async Task WhenAMdFileIsReceived_ThenTheContentsShouldBeDeserialised()
         {
-            var controller = new MarkupProcessorController(_markUpProcessor.Object);
+            _repository.Setup(x => x.Add(It.IsAny<MDContents>())).ReturnsAsync(It.IsAny<MDContents>());
+            var controller = new MarkupProcessorController(_markUpProcessor.Object, _repository.Object);
 
             var file = GetFileMock("text/markdown");
 
-            var sut = await controller.Get(file);
+            var sut = await controller.Post(file);
 
             sut.Should().NotBeNull();
             Assert.AreEqual("9604648153", sut.Payload["demandId"].ToString());
-            Assert.AreEqual("Cancelled", sut.Payload["Status"].ToString()); 
+            Assert.AreEqual("Cancelled", sut.Payload["Status"].ToString());
+            _repository.Verify(x => x.Add(It.IsAny<MDContents>()), Times.Once);
         }
 
         private IFormFile GetFileMock(string contentType)
         {
-            FileStream fileStream = new FileStream("C:\\git\\MarkupProcessor\\MarkupProcessor.Tests\\Test Md files\\TestMd.md", FileMode.Open);
+            FileStream fileStream = new FileStream("C:\\git\\MarkupProcessor2\\MarkupProcessor.Tests\\Test Md files\\TestMd.md", FileMode.Open);
             List<string> allLines = new List<string>();
             using (StreamReader reader = new StreamReader(fileStream))
             {
