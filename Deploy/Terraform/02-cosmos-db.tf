@@ -14,7 +14,6 @@ resource "azurerm_cosmosdb_sql_container" "markup-processor" {
   default_ttl           = 1209600
 
   indexing_policy {
-    indexing_mode = "Consistent"
 
     included_path {
       path = "/*"
