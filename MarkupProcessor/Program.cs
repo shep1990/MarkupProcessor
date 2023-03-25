@@ -1,9 +1,13 @@
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHealthChecks();
+builder.Services.AddMediatR(typeof(Program));
 
 var app = builder.Build();
 

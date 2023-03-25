@@ -1,5 +1,6 @@
-﻿using MarkupProcessor.Data;
-using MarkupProcessor.Data.Interfaces;
+﻿using MarkupProcessor.Application.Commands;
+using MarkupProcessor.Data.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -10,35 +11,42 @@ namespace MarkupProcessor.Controllers
     public class MarkupProcessorController : ControllerBase
     {
         private readonly ILogger<MarkupProcessorController> _logger;
-        private readonly IMarkupRepository _markupRepository;
+        private readonly IMediator _mediator;
 
-        public MarkupProcessorController(ILogger<MarkupProcessorController> logger, IMarkupRepository markupRepository)
+        public MarkupProcessorController(ILogger<MarkupProcessorController> logger, IMediator mediator)
         {
             _logger = logger;
-            _markupRepository = markupRepository;
+            _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task<MDContents> Post(IFormFile file)
+        public async Task<IActionResult> Post(IFormFile file)
         {
-            var contents = new MDContents();
-            using (var reader = new StreamReader(file.OpenReadStream()))
+            try
             {
-                while (reader.Peek() >= 0)
+                var contents = new AddMDContentCommand();
+                using (var reader = new StreamReader(file.OpenReadStream()))
                 {
-                    if (reader.ReadLine() == "```json")
+                    while (reader.Peek() >= 0)
                     {
-                        var jsonString = reader.ReadToEnd().Trim();
-                        contents = JsonConvert.DeserializeObject<MDContents>(jsonString.Remove(jsonString.Length-3));
-                        contents.FlowChartId = Guid.NewGuid().ToString();
+                        if (reader.ReadLine() == "```json")
+                        {
+                            var jsonString = reader.ReadToEnd().Trim();
+                            contents.MDContentsDto = JsonConvert.DeserializeObject<MDContentsDto>(jsonString.Remove(jsonString.Length - 3));
+                            contents.MDContentsDto.FlowChartId = Guid.NewGuid().ToString();
+                        }
                     }
                 }
+
+                var result = await _mediator.Send(contents);
+
+                return Ok(result);
             }
-
-            await _markupRepository.Add(contents);
-
-           
-            return contents;
+            catch (Exception ex)
+            {
+                _logger.LogError("There was an issue with the request");
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

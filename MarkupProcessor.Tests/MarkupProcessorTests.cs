@@ -1,8 +1,13 @@
 using FluentAssertions;
+using MarkupProcessor.Application;
+using MarkupProcessor.Application.Commands;
 using MarkupProcessor.Controllers;
 using MarkupProcessor.Data;
 using MarkupProcessor.Data.Interfaces;
+using MarkupProcessor.Data.Models;
+using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 using Moq;
@@ -12,32 +17,32 @@ using System.Text;
 namespace MarkupProcessor.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class MarkupProcessorTests
     {
         private Mock<ILogger<MarkupProcessorController>> _markUpProcessor;
-        private Mock<IMarkupRepository> _repository;
+        private Mock<IMediator> _mediatr;
 
         [TestInitialize]
         public void Setup()
         {
             _markUpProcessor = new Mock<ILogger<MarkupProcessorController>>();
-            _repository = new Mock<IMarkupRepository>();
+            _mediatr = new Mock<IMediator>();
         }
 
         [TestMethod]
         public async Task WhenAMdFileIsReceived_ThenTheContentsShouldBeDeserialised()
         {
-            _repository.Setup(x => x.Add(It.IsAny<MDContents>())).ReturnsAsync(It.IsAny<MDContents>());
-            var controller = new MarkupProcessorController(_markUpProcessor.Object, _repository.Object);
+            var response = new HandlerResponse { Success = true };
+            _mediatr.Setup(x => x.Send(It.IsAny<AddMDContentCommand>(), It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(response));
+            var controller = new MarkupProcessorController(_markUpProcessor.Object, _mediatr.Object);
 
             var file = GetFileMock("text/markdown");
 
-            var sut = await controller.Post(file);
+            var sut = await controller.Post(file) as OkObjectResult;
 
-            sut.Should().NotBeNull();
-            Assert.AreEqual("9604648153", sut.Payload["demandId"].ToString());
-            Assert.AreEqual("Cancelled", sut.Payload["Status"].ToString());
-            _repository.Verify(x => x.Add(It.IsAny<MDContents>()), Times.Once);
+            sut.StatusCode.Should().Be(200);
+            _mediatr.Verify(x => x.Send(It.IsAny<AddMDContentCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+
         }
 
         private IFormFile GetFileMock(string contentType)
