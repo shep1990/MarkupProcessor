@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHealthChecks();
 builder.Services.AddMediatR(typeof(Program));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularOrigins",
+    builder =>
+    {
+        builder.WithOrigins(
+                            "http://localhost:4200"
+                            )
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -28,5 +42,7 @@ app.MapControllerRoute(
 app.MapFallbackToFile("index.html"); ;
 
 app.MapHealthChecks("/health");
+
+app.UseCors("AllowAngularOrigins");
 
 app.Run();

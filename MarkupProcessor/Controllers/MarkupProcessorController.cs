@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace MarkupProcessor.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class MarkupProcessorController : ControllerBase
     {
         private readonly ILogger<MarkupProcessorController> _logger;
@@ -19,11 +19,18 @@ namespace MarkupProcessor.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post(IFormFile file)
+        [HttpGet]
+        public string Get()
+        {
+            return "hello world";
+        }
+
+        [HttpPost("UploadFile")]
+        public async Task<IActionResult> Post()
         {
             try
             {
+                var file = Request.Form.Files[0];
                 var contents = new AddMDContentCommand();
                 using (var reader = new StreamReader(file.OpenReadStream()))
                 {
@@ -38,9 +45,14 @@ namespace MarkupProcessor.Controllers
                     }
                 }
 
-                var result = await _mediator.Send(contents);
+                if(contents.MDContentsDto != null)
+                {
+                    var result = await _mediator.Send(contents);
+                    return Ok("file uploaded");
+                }
 
-                return Ok(result);
+                _logger.LogWarning("No JSON Content was found");
+                return Ok("No file uploaded");
             }
             catch (Exception ex)
             {

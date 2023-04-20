@@ -8,10 +8,14 @@ using MarkupProcessor.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using Microsoft.VisualBasic;
 using Moq;
 using System.IO;
+using System.Net.Http;
 using System.Text;
 
 namespace MarkupProcessor.Tests
@@ -36,18 +40,35 @@ namespace MarkupProcessor.Tests
             _mediatr.Setup(x => x.Send(It.IsAny<AddMDContentCommand>(), It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(response));
             var controller = new MarkupProcessorController(_markUpProcessor.Object, _mediatr.Object);
 
-            var file = GetFileMock("text/markdown");
+            var file = GetFileMock("text/markdown", "Test Md files\\TestMd.md");
 
-            var sut = await controller.Post(file) as OkObjectResult;
+            controller.ControllerContext = this.RequestWithFile(file);
+            var sut = await controller.Post() as OkObjectResult;
 
             sut.StatusCode.Should().Be(200);
             _mediatr.Verify(x => x.Send(It.IsAny<AddMDContentCommand>(), It.IsAny<CancellationToken>()), Times.Once);
 
         }
 
-        private IFormFile GetFileMock(string contentType)
+        [TestMethod]
+        public async Task WhenAnMDFileIsReceived_AndThereIsNoJSONPresent_ThenTheRequestShouldNotBeProcessed()
         {
-            FileStream fileStream = new FileStream("C:\\git\\MarkupProcessor2\\MarkupProcessor.Tests\\Test Md files\\TestMd.md", FileMode.Open);
+            var response = new HandlerResponse { Success = true };
+            _mediatr.Setup(x => x.Send(It.IsAny<AddMDContentCommand>(), It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(response));
+            var controller = new MarkupProcessorController(_markUpProcessor.Object, _mediatr.Object);
+
+            var file = GetFileMock("text/markdown", "Test Md files\\TestMdNoJson.md");
+
+            controller.ControllerContext = this.RequestWithFile(file);
+            var sut = await controller.Post() as OkObjectResult;
+
+            sut.StatusCode.Should().Be(200);
+            _mediatr.Verify(x => x.Send(It.IsAny<AddMDContentCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        private IFormFile GetFileMock(string contentType, string filePath)
+        {
+            FileStream fileStream = new FileStream(filePath, FileMode.Open);
             List<string> allLines = new List<string>();
             using (StreamReader reader = new StreamReader(fileStream))
             {
@@ -73,7 +94,18 @@ namespace MarkupProcessor.Tests
                 ContentType = contentType
             };
 
+
+
             return file;
+        }
+
+        private ControllerContext RequestWithFile(IFormFile file)
+        {
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Headers.Add("Content-Type", "multipart/form-data");
+            httpContext.Request.Form = new FormCollection(new Dictionary<string, StringValues>(), new FormFileCollection { file });
+            var actx = new ActionContext(httpContext, new RouteData(), new ControllerActionDescriptor());
+            return new ControllerContext(actx);
         }
     }
 }
