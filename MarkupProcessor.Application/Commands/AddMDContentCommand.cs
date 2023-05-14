@@ -9,7 +9,7 @@ namespace MarkupProcessor.Application.Commands
 
     public class MDContentsDto
     {
-        public string Guid { get; set; }
+        public Guid Id { get; set; }
         public string CreationDate { get; set; }
         public string Version { get; set; }
         public string SourceSystem { get; set; }

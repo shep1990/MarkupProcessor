@@ -1,36 +1,30 @@
-import { HttpClient } from "@angular/common/http";
-import { Component } from "@angular/core";
+import { APP_BASE_HREF } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FlowDiagram } from '../flowDiagram';
+import { ApiService } from '../services/api.service';
 
 @Component({
-  selector: 'file-upload',
+  selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ["./home.component.css"]
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  flowDiagram = new FlowDiagram();
 
-  fileName = '';
+  constructor(private fb: FormBuilder, private apiService: ApiService) {
+  }
 
-  constructor(private http: HttpClient) { }
+  flowChartForm = this.fb.group({
+    nameField: new FormControl(''),
+  });
 
-  onFileSelected(event: any) {
-
-    const file: File = event.target.files[0];
-
-    console.log(file);
-
-    if (file) {
-
-      this.fileName = file.name;
-
-      const formData = new FormData();
-
-      formData.append("thumbnail", file);
-
-      console.log(formData)
-
-      const upload$ = this.http.post("https://localhost:7291/api/MarkupProcessor/UploadFile", formData);
-
-      upload$.subscribe();
-    }
+  onSubmit() {
+    this.flowDiagram.name = this.flowChartForm.value.nameField?.toString()
+    console.log(this.flowChartForm)
+    this.apiService.createFlowDiagram(this.flowDiagram).subscribe(data => {
+      console.log(data)
+    });
   }
 }

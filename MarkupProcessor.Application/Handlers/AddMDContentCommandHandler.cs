@@ -26,7 +26,7 @@ namespace MarkupProcessor.Application.Handlers
                     CreationDate = request.MDContentsDto.CreationDate,
                     SourceSystem = request.MDContentsDto.SourceSystem,
                     FlowChartId = request.MDContentsDto.FlowChartId,
-                    Guid = request.MDContentsDto.Guid,
+                    Id = request.MDContentsDto.Id,
                     Version = request.MDContentsDto.Version
                 };
 

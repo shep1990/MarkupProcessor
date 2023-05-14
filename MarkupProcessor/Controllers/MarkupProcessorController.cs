@@ -25,7 +25,7 @@ namespace MarkupProcessor.Controllers
             return "hello world";
         }
 
-        [HttpPost("UploadFile")]
+        [HttpPost("Upload")]
         public async Task<IActionResult> Post()
         {
             try
