@@ -1,6 +1,7 @@
-﻿using MediatR;
+﻿using MarkupProcessor.Handlers;
+using MediatR;
 
-namespace MarkupProcessor.Application.Commands
+namespace MarkupProcessor.Commands
 {
     public class AddMDContentCommand : IRequest<HandlerResponse>
     {

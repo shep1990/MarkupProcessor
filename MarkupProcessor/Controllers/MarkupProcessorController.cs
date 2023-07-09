@@ -1,5 +1,4 @@
-﻿using MarkupProcessor.Application.Commands;
-using MarkupProcessor.Data.Models;
+﻿using MarkupProcessor.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

@@ -1,6 +1,10 @@
+using MarkupProcessor.Data.Interfaces;
+using MarkupProcessor.Data.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHealthChecks();
 builder.Services.AddMediatR(typeof(Program));
+
+builder.Services.AddSingleton(s => new CosmosClientBuilder("https://localhost:8081", "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==")
+.WithSerializerOptions(new CosmosSerializationOptions { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
+.WithApplicationName("MarkupProcessor")
+.Build());
+
+builder.Services.AddScoped<IFlowDiagramInformationRepository, FlowDiagramInformationRepository>();
+builder.Services.AddScoped<IMarkupRepository, MarkupRepository>();
 
 builder.Services.AddCors(options =>
 {

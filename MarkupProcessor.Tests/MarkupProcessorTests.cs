@@ -1,10 +1,7 @@
 using FluentAssertions;
-using MarkupProcessor.Application;
-using MarkupProcessor.Application.Commands;
+using MarkupProcessor.Commands;
 using MarkupProcessor.Controllers;
-using MarkupProcessor.Data;
-using MarkupProcessor.Data.Interfaces;
-using MarkupProcessor.Data.Models;
+using MarkupProcessor.Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +9,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
-using Microsoft.VisualBasic;
 using Moq;
-using System.IO;
-using System.Net.Http;
 using System.Text;
 
 namespace MarkupProcessor.Tests
@@ -23,8 +17,8 @@ namespace MarkupProcessor.Tests
     [TestClass]
     public class MarkupProcessorTests
     {
-        private Mock<ILogger<MarkupProcessorController>> _markUpProcessor;
-        private Mock<IMediator> _mediatr;
+        private Mock<ILogger<MarkupProcessorController>> _markUpProcessor = null!;
+        private Mock<IMediator> _mediatr = null!;
 
         [TestInitialize]
         public void Setup()

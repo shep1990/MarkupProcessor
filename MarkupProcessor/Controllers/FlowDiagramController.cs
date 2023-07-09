@@ -1,7 +1,6 @@
-﻿using MarkupProcessor.Application.Commands;
-using MarkupProcessor.Application.Dto;
+﻿using MarkupProcessor.Application.Dto;
+using MarkupProcessor.Commands;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarkupProcessor.Controllers
@@ -24,16 +23,11 @@ namespace MarkupProcessor.Controllers
         {
             try
             {
-                var flowDiagramInfo = new FlowDiagramInformationCommand
+                var result = await _mediator.Send(new FlowDiagramInformationCommand
                 {
-                    FlowDiagramInformationDto = new FlowDiagramDto
-                    {
-                        Name = flowDiagram.Name,
-                    }
-                };
-
-                var result = await _mediator.Send(flowDiagramInfo);
-                return Ok("Flow diagram created");
+                    FlowDiagramInformationDto = flowDiagram
+                });
+                return Ok(result);
             }
             catch (Exception ex)
             {

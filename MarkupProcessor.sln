@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkupProcessor", "MarkupProcessor.csproj", "{DE82CD7E-B4B8-443B-9682-F3A71E7FD1B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkupProcessor", "MarkupProcessor\MarkupProcessor.csproj", "{DE82CD7E-B4B8-443B-9682-F3A71E7FD1B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkupProcessor.Tests", "..\MarkupProcessor.Tests\MarkupProcessor.Tests.csproj", "{C812F2D4-CA16-4E99-8B70-168141B841F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkupProcessor.Tests", "MarkupProcessor.Tests\MarkupProcessor.Tests.csproj", "{C812F2D4-CA16-4E99-8B70-168141B841F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkupProcessor.Data", "..\MarkupProcessor.Data\MarkupProcessor.Data.csproj", "{9C630803-4F67-4E4A-9992-4A394AAB88CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkupProcessor.Data", "MarkupProcessor.Data\MarkupProcessor.Data.csproj", "{9C630803-4F67-4E4A-9992-4A394AAB88CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkupProcessor.Application", "..\MarkupProcessor.Application\MarkupProcessor.Application.csproj", "{70D02DEB-4195-4B90-A673-816329D4F069}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkupProcessor.Application", "MarkupProcessor.Application\MarkupProcessor.Application.csproj", "{70D02DEB-4195-4B90-A673-816329D4F069}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

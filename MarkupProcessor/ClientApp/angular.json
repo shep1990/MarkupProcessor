@@ -129,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "MarkupProcessor"
+  "defaultProject": "MarkupProcessor",
+  "cli": {
+    "analytics": false
+  }
 }

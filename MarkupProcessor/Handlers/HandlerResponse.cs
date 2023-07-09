@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarkupProcessor.Application
+namespace MarkupProcessor.Handlers
 {
     public class HandlerResponse
     {
@@ -13,7 +13,7 @@ namespace MarkupProcessor.Application
         public string Message { get; set; }
     }
 
-    public class HandlerRespose<TData> : HandlerResponse
+    public class HandlerResponse<TData> : HandlerResponse
     {
         public TData Data { get; set;}
     }

@@ -1,26 +1,26 @@
-﻿using Azure;
-using MarkupProcessor.Application.Commands;
+﻿using MarkupProcessor.Commands;
 using MarkupProcessor.Data.Interfaces;
 using MarkupProcessor.Data.Models;
 using MediatR;
-using Microsoft.Azure.Cosmos;
 
-namespace MarkupProcessor.Application.Handlers
+namespace MarkupProcessor.Handlers
 {
     public class AddMDContentCommandHandler : IRequestHandler<AddMDContentCommand, HandlerResponse>
     {
         public IMarkupRepository _markupRepository;
+        public Logger<AddMDContentCommandHandler> _logger;
 
-        public AddMDContentCommandHandler(IMarkupRepository markupRepository)
+        public AddMDContentCommandHandler(IMarkupRepository markupRepository, Logger<AddMDContentCommandHandler> logger)
         {
             _markupRepository = markupRepository;
+            _logger = logger;
         }
 
         public async Task<HandlerResponse> Handle(AddMDContentCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var mdContentsEntity = new MDContents
+                await _markupRepository.Add(new MDContents
                 {
                     Payload = request.MDContentsDto.Payload,
                     CreationDate = request.MDContentsDto.CreationDate,
@@ -28,14 +28,13 @@ namespace MarkupProcessor.Application.Handlers
                     FlowChartId = request.MDContentsDto.FlowChartId,
                     Id = request.MDContentsDto.Id,
                     Version = request.MDContentsDto.Version
-                };
-
-                await _markupRepository.Add(mdContentsEntity);
+                });
 
                 return new HandlerResponse { Success = true };
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "There was an issue with the request");
                 return new HandlerResponse { Success = false, Message = "There was an issue with the request" };
             }
         }

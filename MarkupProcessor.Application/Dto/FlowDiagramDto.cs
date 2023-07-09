@@ -8,6 +8,11 @@ namespace MarkupProcessor.Application.Dto
 {
     public class FlowDiagramDto
     {
+        public FlowDiagramDto() { 
+            Id = Guid.NewGuid();
+        }
+
+        public Guid Id { get; set; }
         public string Name { get; set; } = null!;
     }
 }
