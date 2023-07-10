@@ -1,14 +1,15 @@
-﻿using MarkupProcessor.Commands;
+﻿using MarkupProcessor.Application.Dto;
+using MarkupProcessor.Commands;
 using MarkupProcessor.Data.Interfaces;
 using MarkupProcessor.Data.Models;
 using MediatR;
 
 namespace MarkupProcessor.Handlers
 {
-    public class FlowDiagramInformationCommandHandler : IRequestHandler<FlowDiagramInformationCommand, HandlerResponse>
+    public class FlowDiagramInformationCommandHandler : IRequestHandler<FlowDiagramInformationCommand, HandlerResponse<FlowDiagramDto>>
     {
         public IFlowDiagramInformationRepository _flowDiagramInformationRepository;
-        public ILogger<FlowDiagramInformationCommandHandler> _logger;
+        private readonly ILogger<FlowDiagramInformationCommandHandler> _logger;
 
         public FlowDiagramInformationCommandHandler(
             IFlowDiagramInformationRepository flowDiagramInformationRepository,
@@ -18,7 +19,7 @@ namespace MarkupProcessor.Handlers
             _logger = logger;
         }
 
-        public async Task<HandlerResponse> Handle(FlowDiagramInformationCommand request, CancellationToken cancellationToken)
+        public async Task<HandlerResponse<FlowDiagramDto>> Handle(FlowDiagramInformationCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -27,12 +28,12 @@ namespace MarkupProcessor.Handlers
                     FlowDiagramName = request.FlowDiagramInformationDto.Name
                 });
 
-                return new HandlerResponse { Success = true };
+                return new HandlerResponse<FlowDiagramDto> { Success = true };
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an issue with the request");
-                return new HandlerResponse { Success = false, Message = "There was an issue with the request" };
+                return new HandlerResponse<FlowDiagramDto> { Success = false, Message = "There was an issue with the request" };
             }
         }
     }

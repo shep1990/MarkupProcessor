@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddLogging();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHealthChecks();
 builder.Services.AddMediatR(typeof(Program));

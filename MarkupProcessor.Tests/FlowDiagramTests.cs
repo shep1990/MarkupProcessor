@@ -47,7 +47,7 @@ namespace MarkupProcessor.Tests
 
         private bool CompareResults(FlowDiagramDto expected, FlowDiagramDto actual)
         {
-            return expected.Id == actual.Id && expected.Name == actual.Name;
+            return expected.Name == actual.Name;
         }
     }
 }
