@@ -9,19 +9,18 @@ namespace MarkupProcessor.Data.Repositories
         private readonly CosmosClient _cosmosClient;
         private Database _database;
         private Container _container;
+        const string databaseId = "flow-diagram-env-database";
+        const string containerId = "flow-diagram-env-container";
 
         public FlowDiagramInformationRepository(CosmosClient cosmosClient)
         {
             _cosmosClient = cosmosClient;
-            const string databaseId = "flow-diagram-env-database";
-            const string containerId = "flow-diagram-env-container";
-
-            _database = _cosmosClient.GetDatabase(databaseId);
-            _container = _database.GetContainer(containerId);
         }
 
         public async Task<FlowDiagram> Add(FlowDiagram diagramInformation)
         {
+            _database = await _cosmosClient.CreateDatabaseIfNotExistsAsync(databaseId);
+            _container = await _database.CreateContainerIfNotExistsAsync(containerId, "/id");
             var itemResponse = await _container.CreateItemAsync(diagramInformation, CreatePartitionKey(diagramInformation));
             return itemResponse.Resource;
         }

@@ -2,6 +2,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FlowDiagram } from '../flowDiagram';
 import { ApiService } from '../services/api.service';
 
@@ -13,7 +14,7 @@ import { ApiService } from '../services/api.service';
 export class HomeComponent {
   flowDiagram = new FlowDiagram();
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) {
+  constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {
   }
 
   flowChartForm = this.fb.group({
@@ -22,9 +23,8 @@ export class HomeComponent {
 
   onSubmit() {
     this.flowDiagram.name = this.flowChartForm.value.nameField?.toString()
-    console.log(this.flowChartForm)
-    this.apiService.createFlowDiagram(this.flowDiagram).subscribe(data => {
-      console.log(data)
+    this.apiService.createFlowDiagram(this.flowDiagram).subscribe((result: FlowDiagram) => {
+      this.router.navigate(['/file-upload', result.id]);
     });
   }
 }

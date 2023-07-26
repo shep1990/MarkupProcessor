@@ -23,12 +23,12 @@ namespace MarkupProcessor.Handlers
         {
             try
             {
-                await _flowDiagramInformationRepository.Add(new FlowDiagram
+                var response = await _flowDiagramInformationRepository.Add(new FlowDiagram
                 {
                     FlowDiagramName = request.FlowDiagramInformationDto.Name
                 });
 
-                return new HandlerResponse<FlowDiagramDto> { Success = true };
+                return new HandlerResponse<FlowDiagramDto> { Success = true, Data =  new FlowDiagramDto { Id = response.Id, Name = response.FlowDiagramName } };
             }
             catch (Exception ex)
             {

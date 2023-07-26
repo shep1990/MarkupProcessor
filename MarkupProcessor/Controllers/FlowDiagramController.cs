@@ -27,7 +27,7 @@ namespace MarkupProcessor.Controllers
                 {
                     FlowDiagramInformationDto = flowDiagram
                 });
-                return Ok(result);
+                return Ok(result.Data);
             }
             catch (Exception ex)
             {

@@ -12,7 +12,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HomeComponent } from './home/home.component';
-import { APP_BASE_HREF, PlatformLocation } from '@angular/common';
+
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { ApiService } from './services/api.service';
@@ -48,7 +48,7 @@ export class BaseUrlInterceptor implements HttpInterceptor {
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
-      { path: 'file-upload', component: FileUploadComponent },
+      { path: 'file-upload/:id', component: FileUploadComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ])
