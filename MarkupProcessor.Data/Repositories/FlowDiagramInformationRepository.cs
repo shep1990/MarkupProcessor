@@ -1,6 +1,7 @@
 ﻿using MarkupProcessor.Data.Interfaces;
 using MarkupProcessor.Data.Models;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Linq;
 
 namespace MarkupProcessor.Data.Repositories
 {
@@ -15,14 +16,21 @@ namespace MarkupProcessor.Data.Repositories
         public FlowDiagramInformationRepository(CosmosClient cosmosClient)
         {
             _cosmosClient = cosmosClient;
+            _database = _cosmosClient.GetDatabase(databaseId);
+            _container = _database.GetContainer(containerId);
         }
 
         public async Task<FlowDiagram> Add(FlowDiagram diagramInformation)
         {
-            _database = await _cosmosClient.CreateDatabaseIfNotExistsAsync(databaseId);
-            _container = await _database.CreateContainerIfNotExistsAsync(containerId, "/id");
             var itemResponse = await _container.CreateItemAsync(diagramInformation, CreatePartitionKey(diagramInformation));
             return itemResponse.Resource;
+        }
+
+        public async Task<List<FlowDiagram>> Get()
+        {
+            var itemResponseFeed = _container.GetItemLinqQueryable<FlowDiagram>().ToFeedIterator();
+            FeedResponse<FlowDiagram> queryResultSet = await itemResponseFeed.ReadNextAsync();
+            return queryResultSet.ToList();
         }
 
         private static PartitionKey CreatePartitionKey(FlowDiagram item)

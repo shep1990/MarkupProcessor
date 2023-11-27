@@ -1,3 +1,7 @@
+<div *ngFor="let hello of test">
+  {{hello.name}}
+</div>
+
 <form [formGroup]="flowChartForm" (ngSubmit)="onSubmit()">
   <label for="name-field">Flow Chart Name: </label>
   <input id="name-field" type="text" formControlName="nameField">

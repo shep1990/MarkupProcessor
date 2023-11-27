@@ -1,4 +1,5 @@
 ﻿using MarkupProcessor.Commands;
+using MarkupProcessor.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -18,36 +19,40 @@ namespace MarkupProcessor.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        public string Get()
+        [HttpGet()]
+        public async Task<IActionResult> Get(string flowChartId)
         {
-            return "hello world";
+            var result = await _mediator.Send(new MDContentsQuery(flowChartId));
+            return Ok(result);
         }
 
         [HttpPost("Upload")]
-        public async Task<IActionResult> Post()
+        public async Task<IActionResult> Post(string flowDiagramId)
         {
             try
             {
-                var file = Request.Form.Files[0];
+                var files = Request.Form.Files;
                 var contents = new AddMDContentCommand();
-                using (var reader = new StreamReader(file.OpenReadStream()))
-                {
-                    while (reader.Peek() >= 0)
+                foreach(var file in files){
+                    using (var reader = new StreamReader(file.OpenReadStream()))
                     {
-                        if (reader.ReadLine() == "```json")
+                        while (reader.Peek() >= 0)
                         {
-                            var jsonString = reader.ReadToEnd().Trim();
-                            contents.MDContentsDto = JsonConvert.DeserializeObject<MDContentsDto>(jsonString.Remove(jsonString.Length - 3));
-                            contents.MDContentsDto.FlowChartId = Guid.NewGuid().ToString();
+                            if (reader.ReadLine() == "```json")
+                            {
+                                var jsonString = reader.ReadToEnd().Trim();
+                                contents.MDContentsDto = JsonConvert.DeserializeObject<MDContentsDto>(jsonString.Remove(jsonString.Length - 3));
+                                contents.MDContentsDto.FlowChartId = Guid.NewGuid().ToString();
+                            }
                         }
                     }
                 }
 
                 if(contents.MDContentsDto != null)
                 {
+                    contents.MDContentsDto.FlowChartId = flowDiagramId;
                     var result = await _mediator.Send(contents);
-                    return Ok("file uploaded");
+                    return Ok(result);
                 }
 
                 _logger.LogWarning("No JSON Content was found");

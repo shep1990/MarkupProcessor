@@ -6,36 +6,33 @@ using MediatR;
 
 namespace MarkupProcessor.Handlers
 {
-    public class AddMDContentCommandHandler : IRequestHandler<AddMDContentCommand, HandlerResponse>
+    public class AddMDContentCommandHandler : HandlerBase, IRequestHandler<AddMDContentCommand, HandlerResponse>
     {
         public IMarkupRepository _markupRepository;
-        private readonly ILogger<AddMDContentCommandHandler> _logger;
 
-        public AddMDContentCommandHandler(IMarkupRepository markupRepository, ILogger<AddMDContentCommandHandler> logger)
+        public AddMDContentCommandHandler(IMarkupRepository markupRepository, ILogger<AddMDContentCommandHandler> logger) : base(logger) 
         {
             _markupRepository = markupRepository;
-            _logger = logger;
         }
 
         public async Task<HandlerResponse> Handle(AddMDContentCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                await _markupRepository.Add(new MDContents
+                var result = await _markupRepository.Add(new MDContents
                 {
                     Payload = request.MDContentsDto.Payload,
                     CreationDate = request.MDContentsDto.CreationDate,
                     SourceSystem = request.MDContentsDto.SourceSystem,
                     FlowChartId = request.MDContentsDto.FlowChartId,
-                    Id = request.MDContentsDto.Id,
                     Version = request.MDContentsDto.Version
                 });
 
-                return new HandlerResponse { Success = true };
+                return new HandlerResponse<MDContents> { Success = true, Data = result };
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "There was an issue with the request");
+                Logger.LogError(ex, "There was an issue with the request");
                 return new HandlerResponse { Success = false, Message = "There was an issue with the request" };
             }
         }

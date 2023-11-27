@@ -1,6 +1,8 @@
 ﻿using MarkupProcessor.Data.Interfaces;
 using MarkupProcessor.Data.Models;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Linq;
+using System.ComponentModel;
 
 namespace MarkupProcessor.Data.Repositories
 {
@@ -8,15 +10,21 @@ namespace MarkupProcessor.Data.Repositories
     {
         private readonly CosmosClient _cosmosClient;
         private Database _database;
-        private Container _container;
+        private Microsoft.Azure.Cosmos.Container _container;
+        private const string databaseId = "flow-diagram-env-database";
+        private const string containerId = "markup-processor-container";
 
         public MarkupRepository(CosmosClient cosmosClient) { 
             _cosmosClient = cosmosClient;
-            const string databaseId = "markup-processor-database";
-            const string containerId = "markup-processor-container";
-
             _database = _cosmosClient.GetDatabase(databaseId);
             _container = _database.GetContainer(containerId);
+        }
+
+        public async Task<List<MDContents>> Get(string flowchartId)
+        {
+            var itemResponse = _container.GetItemLinqQueryable<MDContents>().Where(x => x.FlowChartId == flowchartId).ToFeedIterator();
+            FeedResponse<MDContents> queryResultSetIterator = await itemResponse.ReadNextAsync();
+            return queryResultSetIterator.ToList();
         }
 
         public async Task<MDContents> Add(MDContents contents) {
@@ -26,7 +34,7 @@ namespace MarkupProcessor.Data.Repositories
 
         private static PartitionKey CreatePartitionKey(MDContents item)
         {
-            return new PartitionKey(item.FlowChartId);
+            return new PartitionKey(item.FlowChartId.ToString());
         }
     }
 }
