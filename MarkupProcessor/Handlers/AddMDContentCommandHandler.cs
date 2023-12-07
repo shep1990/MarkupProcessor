@@ -6,7 +6,7 @@ using MediatR;
 
 namespace MarkupProcessor.Handlers
 {
-    public class AddMDContentCommandHandler : HandlerBase, IRequestHandler<AddMDContentCommand, HandlerResponse>
+    public class AddMDContentCommandHandler : HandlerBase, IRequestHandler<AddMDContentCommand, HandlerResponse<MDContents>>
     {
         public IMarkupRepository _markupRepository;
 
@@ -15,25 +15,27 @@ namespace MarkupProcessor.Handlers
             _markupRepository = markupRepository;
         }
 
-        public async Task<HandlerResponse> Handle(AddMDContentCommand request, CancellationToken cancellationToken)
+        public async Task<HandlerResponse<MDContents>> Handle(AddMDContentCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _markupRepository.Add(new MDContents
+                return new HandlerResponse<MDContents>
                 {
-                    Payload = request.MDContentsDto.Payload,
-                    CreationDate = request.MDContentsDto.CreationDate,
-                    SourceSystem = request.MDContentsDto.SourceSystem,
-                    FlowChartId = request.MDContentsDto.FlowChartId,
-                    Version = request.MDContentsDto.Version
-                });
-
-                return new HandlerResponse<MDContents> { Success = true, Data = result };
+                    Success = true,
+                    Data = await _markupRepository.Add(new MDContents
+                    (
+                        request.MDContentsDto.Payload,
+                        request.MDContentsDto.CreationDate,
+                        request.MDContentsDto.SourceSystem,
+                        request.MDContentsDto.FlowChartId,
+                        request.MDContentsDto.Version
+                    ))
+                };
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "There was an issue with the request");
-                return new HandlerResponse { Success = false, Message = "There was an issue with the request" };
+                return new HandlerResponse<MDContents> { Success = false, Message = "There was an issue with the request" };
             }
         }
     }

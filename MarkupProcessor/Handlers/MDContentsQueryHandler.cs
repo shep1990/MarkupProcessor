@@ -25,10 +25,7 @@ namespace MarkupProcessor.Handlers
                 var response = await _markupRepository.Get(request.Id);
                 var mdcontentsList = new List<MDContentsDto>();
 
-                mdcontentsList = response.Select(x => new MDContentsDto
-                {
-                    Payload = JsonConvert.SerializeObject(x.Payload)
-                }).ToList();
+                mdcontentsList = response.Select(x => new MDContentsDto(JsonConvert.SerializeObject(x.Payload))).ToList();
 
                 return new HandlerResponse<List<MDContentsDto>>
                 {

@@ -38,10 +38,7 @@ namespace MarkupProcessor.Controllers
                 if (!validateObject.IsValid)
                     return BadRequest(validateObject.Errors);
 
-                var result = await _mediator.Send(new FlowDiagramInformationCommand
-                {
-                    FlowDiagramInformationDto = flowDiagram
-                });
+                var result = await _mediator.Send(new FlowDiagramInformationCommand(flowDiagram));
                 return Ok(result.Data);
             }
             catch (Exception ex)

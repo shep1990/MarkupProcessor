@@ -1,17 +1,23 @@
-﻿using MarkupProcessor.Handlers;
+﻿using MarkupProcessor.Data.Models;
+using MarkupProcessor.Handlers;
 using MediatR;
 
 namespace MarkupProcessor.Commands
 {
-    public class AddMDContentCommand : IRequest<HandlerResponse>
+    public class AddMDContentCommand : IRequest<HandlerResponse<MDContents>>
     {
+        public AddMDContentCommand(MDContentsDto MDContents)
+        {
+            MDContentsDto = MDContents;
+        }
+
         public MDContentsDto MDContentsDto { get; set; } = null!;
     }
 
     public class MDContentsDto
     {
         public Guid Id { get; set; }
-        public string CreationDate { get; set; } = null!;
+        public DateTime CreationDate { get; set; }
         public string Version { get; set; } = null!;
         public string SourceSystem { get; set; } = null!;
         public string FlowChartId { get; set; } = null!;

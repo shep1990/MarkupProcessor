@@ -30,7 +30,7 @@ namespace MarkupProcessor.Tests
             _validator = new FlowDiagramValidator(); 
 
             flowDiagramId = Guid.NewGuid();
-            var response = new HandlerResponse<FlowDiagramDto> { Success = true, Data = new FlowDiagramDto { Name = "MyFlowDiagram", Id = flowDiagramId } };
+            var response = new HandlerResponse<FlowDiagramDto> { Success = true, Data = new FlowDiagramDto(flowDiagramId, "MyFlowDiagram")};
             _mediatr.Setup(x => x.Send(It.IsAny<FlowDiagramInformationCommand>(), It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(response));
         }
 
@@ -39,11 +39,7 @@ namespace MarkupProcessor.Tests
         {
             var controller = new FlowDiagramController(_flowDiagram.Object, _mediatr.Object, _validator);
 
-            var flowDiagramMock = new FlowDiagramDto
-            {
-                Id = flowDiagramId,
-                Name = "MyFlowDiagram",
-            };
+            var flowDiagramMock = new FlowDiagramDto(flowDiagramId, "MyFlowDiagram");
 
             var sut = await controller.Post(flowDiagramMock) as OkObjectResult;
 
@@ -60,10 +56,7 @@ namespace MarkupProcessor.Tests
         {
             var controller = new FlowDiagramController(_flowDiagram.Object, _mediatr.Object, _validator);
 
-            var flowDiagramMock = new FlowDiagramDto
-            {
-                Name = name,
-            };
+            var flowDiagramMock = new FlowDiagramDto(flowDiagramId, name);
 
             var sut = await controller.Post(flowDiagramMock) as BadRequestObjectResult;
 
@@ -78,11 +71,7 @@ namespace MarkupProcessor.Tests
             _mediatr.Setup(x => x.Send(It.IsAny<FlowDiagramInformationCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception("New Exception"));
             var controller = new FlowDiagramController(_flowDiagram.Object, _mediatr.Object, _validator);
 
-            var flowDiagramMock = new FlowDiagramDto
-            {
-                Id = flowDiagramId,
-                Name = "MyFlowDiagram",
-            };
+            var flowDiagramMock = new FlowDiagramDto(flowDiagramId, "MyFlowDiagram");
 
             var sut = await controller.Post(flowDiagramMock) as BadRequestObjectResult;
 

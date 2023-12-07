@@ -21,12 +21,9 @@ namespace MarkupProcessor.Handlers
         {
             try
             {
-                var response = await _flowDiagramInformationRepository.Add(new FlowDiagram
-                {
-                    FlowDiagramName = request.FlowDiagramInformationDto.Name
-                });
+                var response = await _flowDiagramInformationRepository.Add(new FlowDiagram(request.FlowDiagramInformationDto.Name));
 
-                return new HandlerResponse<FlowDiagramDto> { Success = true, Data =  new FlowDiagramDto { Id = response.Id, Name = response.FlowDiagramName } };
+                return new HandlerResponse<FlowDiagramDto> { Success = true, Data = new FlowDiagramDto(response.Id, response.FlowDiagramName) };
             }
             catch (Exception ex)
             {

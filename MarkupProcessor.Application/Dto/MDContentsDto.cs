@@ -8,6 +8,11 @@ namespace MarkupProcessor.Application.Dto
 {
     public class MDContentsDto
     {
+        public MDContentsDto(string payload)
+        {
+            Payload = payload;
+        }
+
         public string Payload { get; set; }
     }
 }

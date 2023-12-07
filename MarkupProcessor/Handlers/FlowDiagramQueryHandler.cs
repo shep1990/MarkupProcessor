@@ -23,11 +23,7 @@ namespace MarkupProcessor.Handlers
                 var response = await _flowDiagramInformationRepository.Get();
                 var flowDiagramList = new List<FlowDiagramDto>();
 
-                flowDiagramList = response.Select(x => new FlowDiagramDto
-                {
-                    Id = x.Id,
-                    Name = x.FlowDiagramName
-                }).ToList();
+                flowDiagramList = response.Select(x => new FlowDiagramDto(x.Id, x.FlowDiagramName)).ToList();
 
                 return new HandlerResponse<List<FlowDiagramDto>>
                 {

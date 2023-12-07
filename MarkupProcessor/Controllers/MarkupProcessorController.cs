@@ -1,8 +1,10 @@
 ﻿using MarkupProcessor.Commands;
+using MarkupProcessor.Handlers;
 using MarkupProcessor.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MarkupProcessor.Controllers
 {
@@ -32,37 +34,45 @@ namespace MarkupProcessor.Controllers
             try
             {
                 var files = Request.Form.Files;
-                var contents = new AddMDContentCommand();
-                foreach(var file in files){
-                    using (var reader = new StreamReader(file.OpenReadStream()))
-                    {
-                        while (reader.Peek() >= 0)
-                        {
-                            if (reader.ReadLine() == "```json")
-                            {
-                                var jsonString = reader.ReadToEnd().Trim();
-                                contents.MDContentsDto = JsonConvert.DeserializeObject<MDContentsDto>(jsonString.Remove(jsonString.Length - 3));
-                                contents.MDContentsDto.FlowChartId = Guid.NewGuid().ToString();
-                            }
-                        }
-                    }
-                }
-
-                if(contents.MDContentsDto != null)
+                
+                var result = files.SelectMany(file =>
                 {
-                    contents.MDContentsDto.FlowChartId = flowDiagramId;
-                    var result = await _mediator.Send(contents);
-                    return Ok(result);
+                    var contents = new List<AddMDContentCommand>();
+                    var reader = new StreamReader(file.OpenReadStream());
+                    return ReadFileContents(contents, reader);
+                });
+
+                if(!result.Any())
+                {
+                    _logger.LogWarning("No JSON Content was found");
+                    return Ok("Either no file was provided or no JSON content was found");
                 }
 
-                _logger.LogWarning("No JSON Content was found");
-                return Ok("No file uploaded");
+                foreach(var item in result)
+                {
+                    item.MDContentsDto.FlowChartId = flowDiagramId;
+                    var response = await _mediator.Send(item);
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError("There was an issue with the request");
                 return BadRequest(ex.Message);
             }
+        }
+
+        private List<AddMDContentCommand> ReadFileContents(List<AddMDContentCommand> contents, StreamReader reader)
+        {
+            while (reader.Peek() >= 0)
+            {
+                if (reader.ReadLine() == "```json")
+                {
+                    var jsonString = reader.ReadToEnd().Trim();
+                    contents.Add(new AddMDContentCommand(JsonConvert.DeserializeObject<MDContentsDto>(jsonString.Remove(jsonString.Length - 3))));
+                }
+            }
+            return contents;
         }
     }
 }

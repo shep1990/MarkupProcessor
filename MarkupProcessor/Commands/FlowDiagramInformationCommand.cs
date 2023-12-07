@@ -11,6 +11,10 @@ namespace MarkupProcessor.Commands
 {
     public class FlowDiagramInformationCommand : IRequest<HandlerResponse<FlowDiagramDto>>
     {
+        public FlowDiagramInformationCommand(FlowDiagramDto flowDiagramInformationDto)
+        {
+            FlowDiagramInformationDto = flowDiagramInformationDto;
+        }
         public FlowDiagramDto FlowDiagramInformationDto { get; set; } = null!;
     }
 }
