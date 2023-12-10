@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using MarkupProcessor.Application.Dto;
+using MarkupProcessor.Data.Models;
 
 namespace MarkupProcessor.Validators
 {
-    public class FlowDiagramValidator : AbstractValidator<FlowDiagramDto>
+    public class FlowDiagramValidator : AbstractValidator<FlowDiagram>
     {
         public FlowDiagramValidator() { 
-            RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.FlowDiagramName).NotEmpty();
         }
     }
 }

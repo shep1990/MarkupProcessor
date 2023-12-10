@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MarkupProcessor.Application.Dto;
 using MarkupProcessor.Commands;
+using MarkupProcessor.Data.Models;
 using MarkupProcessor.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,9 @@ namespace MarkupProcessor.Controllers
     {
         private readonly ILogger<FlowDiagramController> _logger;
         private readonly IMediator _mediator;
-        private readonly IValidator<FlowDiagramDto> _validator;
+        private readonly IValidator<FlowDiagram> _validator;
 
-        public FlowDiagramController(ILogger<FlowDiagramController> logger, IMediator mediator, IValidator<FlowDiagramDto> validator) 
+        public FlowDiagramController(ILogger<FlowDiagramController> logger, IMediator mediator, IValidator<FlowDiagram> validator) 
         {
             _logger = logger;
             _mediator = mediator;
@@ -30,7 +31,7 @@ namespace MarkupProcessor.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Post(FlowDiagramDto flowDiagram)
+        public async Task<IActionResult> Post(FlowDiagram flowDiagram)
         {
             try
             {

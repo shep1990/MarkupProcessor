@@ -9,6 +9,10 @@ namespace MarkupProcessor.Data.Models
 {
     public class FlowDiagram
     {
+        public FlowDiagram()
+        {
+                
+        }
         public FlowDiagram(string flowDiagramName)
         {
             Id = Guid.NewGuid();

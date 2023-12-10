@@ -3,6 +3,7 @@ using FluentValidation.Results;
 using MarkupProcessor.Application.Dto;
 using MarkupProcessor.Commands;
 using MarkupProcessor.Controllers;
+using MarkupProcessor.Data.Models;
 using MarkupProcessor.Handlers;
 using MarkupProcessor.Validators;
 using MediatR;
@@ -30,7 +31,7 @@ namespace MarkupProcessor.Tests
             _validator = new FlowDiagramValidator(); 
 
             flowDiagramId = Guid.NewGuid();
-            var response = new HandlerResponse<FlowDiagramDto> { Success = true, Data = new FlowDiagramDto(flowDiagramId, "MyFlowDiagram")};
+            var response = new HandlerResponse<FlowDiagram> { Success = true, Data = new FlowDiagram("MyFlowDiagram")};
             _mediatr.Setup(x => x.Send(It.IsAny<FlowDiagramInformationCommand>(), It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(response));
         }
 
@@ -39,13 +40,13 @@ namespace MarkupProcessor.Tests
         {
             var controller = new FlowDiagramController(_flowDiagram.Object, _mediatr.Object, _validator);
 
-            var flowDiagramMock = new FlowDiagramDto(flowDiagramId, "MyFlowDiagram");
+            var flowDiagramMock = new FlowDiagram("MyFlowDiagram");
 
             var sut = await controller.Post(flowDiagramMock) as OkObjectResult;
 
-            _mediatr.Verify(x => x.Send(It.Is<FlowDiagramInformationCommand>(x => x.FlowDiagramInformationDto.Name == flowDiagramMock.Name), default), Times.Once);
-            ((FlowDiagramDto)sut!.Value!).Id.Should().Be(flowDiagramMock.Id);
-            ((FlowDiagramDto)sut!.Value!).Name.Should().Be(flowDiagramMock.Name);
+            _mediatr.Verify(x => x.Send(It.Is<FlowDiagramInformationCommand>(x => x.FlowDiagramInformation.FlowDiagramName == flowDiagramMock.FlowDiagramName), default), Times.Once);
+            ((FlowDiagram)sut!.Value!).Id.Should().NotBe(Guid.Empty);
+            ((FlowDiagram)sut!.Value!).FlowDiagramName.Should().Be(flowDiagramMock.FlowDiagramName);
             sut.StatusCode.Should().Be(200);
         }
 
@@ -56,13 +57,13 @@ namespace MarkupProcessor.Tests
         {
             var controller = new FlowDiagramController(_flowDiagram.Object, _mediatr.Object, _validator);
 
-            var flowDiagramMock = new FlowDiagramDto(flowDiagramId, name);
+            var flowDiagramMock = new FlowDiagram(name);
 
             var sut = await controller.Post(flowDiagramMock) as BadRequestObjectResult;
 
             _mediatr.Verify(x => x.Send(It.IsAny<FlowDiagramInformationCommand>(), default), Times.Never);
             sut!.StatusCode.Should().Be(400);
-            ((List<ValidationFailure>)sut!.Value!).First().ErrorMessage.Should().Be("'Name' must not be empty.");          
+            ((List<ValidationFailure>)sut!.Value!).First().ErrorMessage.Should().Be("'Flow Diagram Name' must not be empty.");          
         }
 
         [TestMethod]
@@ -71,7 +72,7 @@ namespace MarkupProcessor.Tests
             _mediatr.Setup(x => x.Send(It.IsAny<FlowDiagramInformationCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception("New Exception"));
             var controller = new FlowDiagramController(_flowDiagram.Object, _mediatr.Object, _validator);
 
-            var flowDiagramMock = new FlowDiagramDto(flowDiagramId, "MyFlowDiagram");
+            var flowDiagramMock = new FlowDiagram("MyFlowDiagram");
 
             var sut = await controller.Post(flowDiagramMock) as BadRequestObjectResult;
 

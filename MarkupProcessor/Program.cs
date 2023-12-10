@@ -3,6 +3,7 @@ using MarkupProcessor;
 using MarkupProcessor.Application.Dto;
 using MarkupProcessor.Data;
 using MarkupProcessor.Data.Interfaces;
+using MarkupProcessor.Data.Models;
 using MarkupProcessor.Data.Repositories;
 using MarkupProcessor.Initialization;
 using MarkupProcessor.Validators;
@@ -29,7 +30,7 @@ builder.Services.AddDataStore("MarkupProcessor", builder.Configuration);
 
 builder.Services.AddScoped<IFlowDiagramInformationRepository, FlowDiagramInformationRepository>();
 builder.Services.AddScoped<IMarkupRepository, MarkupRepository>();
-builder.Services.AddScoped<IValidator<FlowDiagramDto>, FlowDiagramValidator>();
+builder.Services.AddScoped<IValidator<FlowDiagram>, FlowDiagramValidator>();
 builder.Services.AddSingleton<IApplicationInitializer, MarkupProcessorInitializer>();
 
 builder.Services.AddCors(options =>

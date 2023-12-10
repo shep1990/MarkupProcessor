@@ -11,7 +11,7 @@ namespace MarkupProcessor.Handlers
 
         public FlowDiagramQueryHandler(
             IFlowDiagramInformationRepository flowDiagramInformationRepository,
-            ILogger<FlowDiagramInformationCommandHandler> logger) : base(logger) 
+            ILogger<FlowDiagramQueryHandler> logger) : base(logger) 
         {
             _flowDiagramInformationRepository = flowDiagramInformationRepository;
         }

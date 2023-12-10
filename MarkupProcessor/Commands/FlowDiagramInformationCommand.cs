@@ -1,4 +1,5 @@
 ﻿using MarkupProcessor.Application.Dto;
+using MarkupProcessor.Data.Models;
 using MarkupProcessor.Handlers;
 using MediatR;
 using System;
@@ -9,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace MarkupProcessor.Commands
 {
-    public class FlowDiagramInformationCommand : IRequest<HandlerResponse<FlowDiagramDto>>
+    public class FlowDiagramInformationCommand : IRequest<HandlerResponse<FlowDiagram>>
     {
-        public FlowDiagramInformationCommand(FlowDiagramDto flowDiagramInformationDto)
+        public FlowDiagramInformationCommand(FlowDiagram flowDiagramInformationDto)
         {
-            FlowDiagramInformationDto = flowDiagramInformationDto;
+            FlowDiagramInformation = flowDiagramInformationDto;
         }
-        public FlowDiagramDto FlowDiagramInformationDto { get; set; } = null!;
+        public FlowDiagram FlowDiagramInformation { get; set; } = null!;
     }
 }

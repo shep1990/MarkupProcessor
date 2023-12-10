@@ -6,7 +6,7 @@ using MediatR;
 
 namespace MarkupProcessor.Handlers
 {
-    public class FlowDiagramInformationCommandHandler : HandlerBase, IRequestHandler<FlowDiagramInformationCommand, HandlerResponse<FlowDiagramDto>>
+    public class FlowDiagramInformationCommandHandler : HandlerBase, IRequestHandler<FlowDiagramInformationCommand, HandlerResponse<FlowDiagram>>
     {
         public IFlowDiagramInformationRepository _flowDiagramInformationRepository;
 
@@ -17,18 +17,18 @@ namespace MarkupProcessor.Handlers
             _flowDiagramInformationRepository = flowDiagramInformationRepository;
         }
 
-        public async Task<HandlerResponse<FlowDiagramDto>> Handle(FlowDiagramInformationCommand request, CancellationToken cancellationToken)
+        public async Task<HandlerResponse<FlowDiagram>> Handle(FlowDiagramInformationCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var response = await _flowDiagramInformationRepository.Add(new FlowDiagram(request.FlowDiagramInformationDto.Name));
+                var response = await _flowDiagramInformationRepository.Add(new FlowDiagram(request.FlowDiagramInformation.FlowDiagramName));
 
-                return new HandlerResponse<FlowDiagramDto> { Success = true, Data = new FlowDiagramDto(response.Id, response.FlowDiagramName) };
+                return new HandlerResponse<FlowDiagram> { Success = true, Data = response };
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "There was an issue with the request");
-                return new HandlerResponse<FlowDiagramDto> { Success = false, Message = "There was an issue with the request" };
+                return new HandlerResponse<FlowDiagram> { Success = false, Message = "There was an issue with the request" };
             }
         }
     }
