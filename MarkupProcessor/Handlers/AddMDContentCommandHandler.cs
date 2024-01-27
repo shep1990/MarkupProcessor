@@ -24,11 +24,12 @@ namespace MarkupProcessor.Handlers
                     Success = true,
                     Data = await _markupRepository.Add(new MDContents
                     (
-                        request.MDContentsDto.Payload,
-                        request.MDContentsDto.CreationDate,
-                        request.MDContentsDto.SourceSystem,
                         request.MDContentsDto.FlowChartId,
-                        request.MDContentsDto.Version
+                        request.MDContentsDto.CreationDate,
+                        request.MDContentsDto.Version,
+                        request.MDContentsDto.SourceSystem,
+                        request.MDContentsDto.EventName,
+                        request.MDContentsDto.Payload
                     ))
                 };
             }

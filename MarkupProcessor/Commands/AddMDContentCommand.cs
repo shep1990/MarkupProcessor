@@ -1,6 +1,7 @@
 ﻿using MarkupProcessor.Data.Models;
 using MarkupProcessor.Handlers;
 using MediatR;
+using System.Text.Json.Nodes;
 
 namespace MarkupProcessor.Commands
 {
@@ -21,6 +22,7 @@ namespace MarkupProcessor.Commands
         public string Version { get; set; } = null!;
         public string SourceSystem { get; set; } = null!;
         public string FlowChartId { get; set; } = null!;
+        public string EventName { get; set; } = null!;
         public dynamic Payload { get; set; } = null!;
     }
 }

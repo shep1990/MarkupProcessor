@@ -8,6 +8,7 @@
   </button>
 </div>
 
-<div *ngFor="let hello of test">
-  payload: {{ test | json }}
-</div>
+<pre *ngFor="let item of mdContents">
+{{item.eventName}}
+{{item.payload}}
+</pre>

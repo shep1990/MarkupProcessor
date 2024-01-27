@@ -5,10 +5,11 @@ Service bus subscription - whds-itemsortation-demandcancelled-subscription
 
 ```json
 {    
-	"guid": "554ae6c4-1af3-4c24-ad47-98ce076928f1",
+    "guid": "554ae6c4-1af3-4c24-ad47-98ce076928f1",
     "creationDate": "2022-06-18T14:56:09.437652Z",
     "version": "1",
     "sourceSystem": "Whds.Demand",
+    "eventName": "testEvent",
     "payload": 
 	{
 		"demandId": 9604648153,

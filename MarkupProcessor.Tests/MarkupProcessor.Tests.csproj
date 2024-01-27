@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MarkupProcessor.Data\MarkupProcessor.Data.csproj" />
     <ProjectReference Include="..\MarkupProcessor\MarkupProcessor.csproj" />
   </ItemGroup>
 

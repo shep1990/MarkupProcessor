@@ -5,6 +5,7 @@ using MarkupProcessor.Data.Models;
 using MarkupProcessor.Handlers;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Text.Json.Nodes;
 
 namespace MarkupProcessor.Tests.Handlers
 {
@@ -64,6 +65,7 @@ namespace MarkupProcessor.Tests.Handlers
                 command.MDContentsDto.CreationDate,
                 command.MDContentsDto.Version,
                 command.MDContentsDto.SourceSystem,
+                command.MDContentsDto.EventName,
                 command.MDContentsDto.Payload as string);
         }
 
@@ -75,8 +77,8 @@ namespace MarkupProcessor.Tests.Handlers
                 CreationDate = DateTime.UtcNow,
                 FlowChartId = Guid.NewGuid().ToString(),
                 SourceSystem = "UnitTest",
-                Payload = "{demandId: 1234}",
-                Version = "1"
+                Version = "1",
+                Payload = "{demandId: 1234}"
             });
         }
 

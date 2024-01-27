@@ -1,3 +1,4 @@
 export class MDContents {
-  payload: string | undefined; 
+  payload: object | undefined;
+  eventName: string | undefined
 }

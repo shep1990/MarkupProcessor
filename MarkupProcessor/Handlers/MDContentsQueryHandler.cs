@@ -4,6 +4,7 @@ using MarkupProcessor.Queries;
 using MediatR;
 using Newtonsoft.Json;
 using System.Text.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MarkupProcessor.Handlers
 {
@@ -25,7 +26,7 @@ namespace MarkupProcessor.Handlers
                 var response = await _markupRepository.Get(request.Id);
                 var mdcontentsList = new List<MDContentsDto>();
 
-                mdcontentsList = response.Select(x => new MDContentsDto(JsonConvert.SerializeObject(x.Payload))).ToList();
+                mdcontentsList = response.Select(x => new MDContentsDto(JsonConvert.SerializeObject(x.Payload, Formatting.Indented), x.EventName)).ToList();
 
                 return new HandlerResponse<List<MDContentsDto>>
                 {

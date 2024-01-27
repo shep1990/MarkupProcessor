@@ -14,18 +14,17 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  public createFlowDiagram(flowDiagram: FlowDiagram): Observable<FlowDiagram> {
+  public CreateFlowDiagram(flowDiagram: FlowDiagram): Observable<FlowDiagram> {
     return this.http.post<FlowDiagram>('api/FlowDiagram/Create', flowDiagram);
   }
 
-  public getFlowCharts(flowDiagramId: string): Observable<MDContents[]> {
+  public GetMdContentsListData(flowDiagramId: string): Observable<MDContents[]> {
     const params = new HttpParams()
       .set('flowChartId', flowDiagramId)
     return this.http.get<MDContentsResponse>('api/MarkupProcessor', { params }).pipe(map(response => response.data));
   }
 
-  public get(): Observable<FlowDiagram[]> {
-    console.log("next")
+  public GetFlowDiagramList(): Observable<FlowDiagram[]> {
     return this.http.get<FlowDiagramResponse>('api/FlowDiagram').pipe(map(response => response.data));
   }
 }

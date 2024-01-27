@@ -11,10 +11,10 @@ namespace MarkupProcessor.Application.Dto
         public FlowDiagramDto(Guid id, string name)
         {
             Id = id;
-            Name = name;
+            FlowDiagramName = name;
         }
 
         public Guid Id { get; set; }
-        public string Name { get; set; } = null!;
+        public string FlowDiagramName { get; set; } = null!;
     }
 }

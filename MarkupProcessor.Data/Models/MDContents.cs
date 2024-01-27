@@ -15,6 +15,7 @@ namespace MarkupProcessor.Data.Models
             DateTime creationDate,
             string version,
             string sourceSystem,
+            string eventName,
             dynamic payload
         )
         {
@@ -23,6 +24,7 @@ namespace MarkupProcessor.Data.Models
             CreationDate = creationDate;
             Version = version;
             SourceSystem = sourceSystem;
+            EventName = eventName;
             Payload = payload;
         }
 
@@ -33,6 +35,7 @@ namespace MarkupProcessor.Data.Models
         public DateTime CreationDate { get; set; }
         public string Version { get; set; } = null!;
         public string SourceSystem { get; set; } = null!; 
+        public string EventName { get; set; } = null!;
         public dynamic Payload { get; set; } = null!;
     }
 }

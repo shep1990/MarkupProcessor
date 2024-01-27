@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Inject, Injectable, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -16,6 +15,9 @@ import { HomeComponent } from './home/home.component';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { ApiService } from './services/api.service';
+import { AppRoutingModule } from './app-routing.module';
+import { JsonPipe } from './pipes/jsonPipe';
+
 
 @Injectable()
 export class BaseUrlInterceptor implements HttpInterceptor {
@@ -38,7 +40,8 @@ export class BaseUrlInterceptor implements HttpInterceptor {
     FileUploadComponent,
     CounterComponent,
     FetchDataComponent,
-    HomeComponent
+    HomeComponent,
+    JsonPipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -46,12 +49,7 @@ export class BaseUrlInterceptor implements HttpInterceptor {
     FormsModule,
     MatIconModule,
     ReactiveFormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent },
-      { path: 'file-upload/:id', component: FileUploadComponent },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-    ])
+    AppRoutingModule
   ],
   bootstrap: [AppComponent],
   providers: [

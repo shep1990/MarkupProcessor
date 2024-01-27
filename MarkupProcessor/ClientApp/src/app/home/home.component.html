@@ -1,6 +1,7 @@
-<div *ngFor="let hello of test">
-  {{hello.name}}
+<div *ngFor="let item of flowDiagramList"> 
+  <a (click)="routeToComponent(item.id)">{{item.flowDiagramName}}</a>
 </div>
+<router-outlet></router-outlet>
 
 <form [formGroup]="flowChartForm" (ngSubmit)="onSubmit()">
   <label for="name-field">Flow Chart Name: </label>
@@ -8,3 +9,5 @@
 
   <button type="submit" [disabled]="!flowChartForm.valid">Submit</button>
 </form>
+
+

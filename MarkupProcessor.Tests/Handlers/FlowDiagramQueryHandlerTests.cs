@@ -46,7 +46,7 @@ namespace MarkupProcessor.Tests.Handlers
         {
             return dto.Select(x =>
             {
-                return x.Name == entity.FirstOrDefault(e => e.Id == x.Id)!.FlowDiagramName;
+                return x.FlowDiagramName == entity.FirstOrDefault(e => e.Id == x.Id)!.FlowDiagramName;
             }).All(b => b == true);
         }
 
