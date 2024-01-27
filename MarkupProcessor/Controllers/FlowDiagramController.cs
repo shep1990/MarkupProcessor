@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MarkupProcessor.Application.Dto;
 using MarkupProcessor.Commands;
 using MarkupProcessor.Data.Models;
 using MarkupProcessor.Queries;
@@ -16,7 +15,7 @@ namespace MarkupProcessor.Controllers
         private readonly IMediator _mediator;
         private readonly IValidator<FlowDiagram> _validator;
 
-        public FlowDiagramController(ILogger<FlowDiagramController> logger, IMediator mediator, IValidator<FlowDiagram> validator) 
+        public FlowDiagramController(ILogger<FlowDiagramController> logger, IMediator mediator, IValidator<FlowDiagram> validator)
         {
             _logger = logger;
             _mediator = mediator;

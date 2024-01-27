@@ -1,5 +1,4 @@
 ﻿using MarkupProcessor.Commands;
-using MarkupProcessor.Controllers;
 using MarkupProcessor.Data.Interfaces;
 using MarkupProcessor.Data.Models;
 using MediatR;
@@ -10,7 +9,7 @@ namespace MarkupProcessor.Handlers
     {
         public IMarkupRepository _markupRepository;
 
-        public AddMDContentCommandHandler(IMarkupRepository markupRepository, ILogger<AddMDContentCommandHandler> logger) : base(logger) 
+        public AddMDContentCommandHandler(IMarkupRepository markupRepository, ILogger<AddMDContentCommandHandler> logger) : base(logger)
         {
             _markupRepository = markupRepository;
         }

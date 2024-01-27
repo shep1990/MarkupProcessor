@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarkupProcessor.Data.Models
 {
@@ -11,7 +6,7 @@ namespace MarkupProcessor.Data.Models
     {
         public FlowDiagram()
         {
-                
+
         }
         public FlowDiagram(string flowDiagramName)
         {

@@ -5,7 +5,7 @@ using Microsoft.Azure.Cosmos.Linq;
 
 namespace MarkupProcessor.Data.Repositories
 {
-    public class FlowDiagramInformationRepository : IFlowDiagramInformationRepository   
+    public class FlowDiagramInformationRepository : IFlowDiagramInformationRepository
     {
         private readonly CosmosClient _cosmosClient;
         private Database _database;

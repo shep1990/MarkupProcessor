@@ -2,7 +2,6 @@
 using MarkupProcessor.Data.Models;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
-using System.ComponentModel;
 
 namespace MarkupProcessor.Data.Repositories
 {
@@ -14,7 +13,8 @@ namespace MarkupProcessor.Data.Repositories
         private const string databaseId = "flow-diagram-env-database";
         private const string containerId = "markup-processor-container";
 
-        public MarkupRepository(CosmosClient cosmosClient) { 
+        public MarkupRepository(CosmosClient cosmosClient)
+        {
             _cosmosClient = cosmosClient;
             _database = _cosmosClient.GetDatabase(databaseId);
             _container = _database.GetContainer(containerId);
@@ -27,7 +27,8 @@ namespace MarkupProcessor.Data.Repositories
             return queryResultSetIterator.ToList();
         }
 
-        public async Task<MDContents> Add(MDContents contents) {
+        public async Task<MDContents> Add(MDContents contents)
+        {
             var itemResponse = await _container.CreateItemAsync(contents, CreatePartitionKey(contents));
             return itemResponse.Resource;
         }

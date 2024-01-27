@@ -3,8 +3,6 @@ using MarkupProcessor.Data.Interfaces;
 using MarkupProcessor.Queries;
 using MediatR;
 using Newtonsoft.Json;
-using System.Text.Json;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MarkupProcessor.Handlers
 {
@@ -34,7 +32,7 @@ namespace MarkupProcessor.Handlers
                     Data = mdcontentsList
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.LogError(ex, "There was an issue with the request");
                 return new HandlerResponse<List<MDContentsDto>>

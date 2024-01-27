@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MarkupProcessor.Handlers
+﻿namespace MarkupProcessor.Handlers
 {
     public class HandlerResponse
     {
@@ -15,11 +9,11 @@ namespace MarkupProcessor.Handlers
 
     public class HandlerResponse<TData> : HandlerResponse
     {
-        public TData Data { get; set;}
+        public TData Data { get; set; }
     }
 
     public class HandlerResponseList<TData> : HandlerResponse
     {
-        public List<TData> Data { get; set;}
+        public List<TData> Data { get; set; }
     }
 }

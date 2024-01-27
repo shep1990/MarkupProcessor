@@ -2,12 +2,6 @@
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Configuration.Internal;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarkupProcessor.Data
 {

@@ -1,14 +1,11 @@
 ﻿using FluentAssertions;
 using FluentValidation.Results;
-using MarkupProcessor.Application.Dto;
 using MarkupProcessor.Commands;
 using MarkupProcessor.Controllers;
 using MarkupProcessor.Data.Models;
 using MarkupProcessor.Handlers;
 using MarkupProcessor.Validators;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -28,10 +25,10 @@ namespace MarkupProcessor.Tests
         {
             _flowDiagram = new Mock<ILogger<FlowDiagramController>>();
             _mediatr = new Mock<IMediator>();
-            _validator = new FlowDiagramValidator(); 
+            _validator = new FlowDiagramValidator();
 
             flowDiagramId = Guid.NewGuid();
-            var response = new HandlerResponse<FlowDiagram> { Success = true, Data = new FlowDiagram("MyFlowDiagram")};
+            var response = new HandlerResponse<FlowDiagram> { Success = true, Data = new FlowDiagram("MyFlowDiagram") };
             _mediatr.Setup(x => x.Send(It.IsAny<FlowDiagramInformationCommand>(), It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(response));
         }
 
@@ -63,7 +60,7 @@ namespace MarkupProcessor.Tests
 
             _mediatr.Verify(x => x.Send(It.IsAny<FlowDiagramInformationCommand>(), default), Times.Never);
             sut!.StatusCode.Should().Be(400);
-            ((List<ValidationFailure>)sut!.Value!).First().ErrorMessage.Should().Be("'Flow Diagram Name' must not be empty.");          
+            ((List<ValidationFailure>)sut!.Value!).First().ErrorMessage.Should().Be("'Flow Diagram Name' must not be empty.");
         }
 
         [TestMethod]

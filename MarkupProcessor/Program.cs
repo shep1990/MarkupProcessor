@@ -1,6 +1,5 @@
 using FluentValidation;
 using MarkupProcessor;
-using MarkupProcessor.Application.Dto;
 using MarkupProcessor.Data;
 using MarkupProcessor.Data.Interfaces;
 using MarkupProcessor.Data.Models;
@@ -8,13 +7,6 @@ using MarkupProcessor.Data.Repositories;
 using MarkupProcessor.Initialization;
 using MarkupProcessor.Validators;
 using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.Azure.Cosmos;
-using Microsoft.Azure.Cosmos.Fluent;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
 

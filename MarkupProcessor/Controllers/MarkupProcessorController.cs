@@ -1,10 +1,8 @@
 ﻿using MarkupProcessor.Commands;
-using MarkupProcessor.Handlers;
 using MarkupProcessor.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MarkupProcessor.Controllers
 {
@@ -34,7 +32,7 @@ namespace MarkupProcessor.Controllers
             try
             {
                 var files = Request.Form.Files;
-                
+
                 var result = files.SelectMany(file =>
                 {
                     var contents = new List<AddMDContentCommand>();
@@ -42,13 +40,13 @@ namespace MarkupProcessor.Controllers
                     return ReadFileContents(contents, reader);
                 });
 
-                if(!result.Any())
+                if (!result.Any())
                 {
                     _logger.LogWarning("No JSON Content was found");
                     return Ok("Either no file was provided or no JSON content was found");
                 }
 
-                foreach(var item in result)
+                foreach (var item in result)
                 {
                     item.MDContentsDto.FlowChartId = flowDiagramId;
                     var response = await _mediator.Send(item);

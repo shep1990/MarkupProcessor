@@ -1,16 +1,9 @@
-﻿using Castle.Core.Logging;
-using FluentAssertions;
+﻿using FluentAssertions;
 using MarkupProcessor.Data.Interfaces;
 using MarkupProcessor.Data.Models;
-using MarkupProcessor.Data.Repositories;
 using MarkupProcessor.Handlers;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarkupProcessor.Tests.Handlers
 {

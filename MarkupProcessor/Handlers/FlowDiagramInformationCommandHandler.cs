@@ -1,5 +1,4 @@
-﻿using MarkupProcessor.Application.Dto;
-using MarkupProcessor.Commands;
+﻿using MarkupProcessor.Commands;
 using MarkupProcessor.Data.Interfaces;
 using MarkupProcessor.Data.Models;
 using MediatR;

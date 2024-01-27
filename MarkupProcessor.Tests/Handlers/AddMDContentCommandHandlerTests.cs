@@ -5,7 +5,6 @@ using MarkupProcessor.Data.Models;
 using MarkupProcessor.Handlers;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Text.Json.Nodes;
 
 namespace MarkupProcessor.Tests.Handlers
 {

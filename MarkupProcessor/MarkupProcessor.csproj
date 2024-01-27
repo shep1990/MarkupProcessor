@@ -33,7 +33,6 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\app-routing.module.ts" />
     <None Remove="ClientApp\src\app\flowDiagram.ts" />
-    <None Remove="ClientApp\src\app\pipes\jsonPipe.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,7 +46,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\app-routing.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\flowDiagram.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\pipes\jsonPipe.ts" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

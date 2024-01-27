@@ -16,7 +16,6 @@ import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { ApiService } from './services/api.service';
 import { AppRoutingModule } from './app-routing.module';
-import { JsonPipe } from './pipes/jsonPipe';
 
 
 @Injectable()
@@ -40,8 +39,7 @@ export class BaseUrlInterceptor implements HttpInterceptor {
     FileUploadComponent,
     CounterComponent,
     FetchDataComponent,
-    HomeComponent,
-    JsonPipe
+    HomeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
